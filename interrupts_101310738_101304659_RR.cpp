@@ -3,9 +3,16 @@
  * @author Sasisekhar Govind
  * @brief template main.cpp file for Assignment 3 Part 1 of SYSC4001
  * 
+ * @author Tomas Alvarez
+ * @author Amnol Thakkar
+ * @date Dec 1 2025
+ * @brief updated wait queue manager and Round Robin scheduler
+ * 
+ * 
+ * 
  */
 
-#include<interrupts_student1_student2.hpp>
+#include<interrupts_101310738_101304659.hpp>
 
 void FCFS(std::vector<PCB> &ready_queue) {
     std::sort( 
@@ -16,17 +23,16 @@ void FCFS(std::vector<PCB> &ready_queue) {
                 } 
             );
 }
-//sorts the ready queue based on priority 
-void EP_RR(std::vector<PCB> &ready_queue) {
-    std::sort(ready_queue.begin(), ready_queue.end(),
-              [](const PCB &first, const PCB &second){
-                if(first.priority == second.priority)
-                  return (first.arrival_time > second.arrival_time);
-                return first.priority > second.priority;
-                }
+
+void RR(std::vector<PCB> &ready_queue) {
+    std::sort( 
+                ready_queue.begin(),
+                ready_queue.end(),
+                []( const PCB &first, const PCB &second ){
+                    return (first.start_time > second.start_time); 
+                } 
             );
 }
-
 
 
 std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std::vector<PCB> list_processes) {
@@ -45,6 +51,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
     idle_CPU(running);
     const int QUANTUM = 100;
     unsigned int quantum_counter = 0;
+
     std::string execution_status;
 
     //make the output table (the header row)
@@ -109,36 +116,17 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
             }
 
         }
+
+
         /////////////////////////////////////////////////////////////////
 
-        //////////////////////////SCHEDULER//////////////////////////////
+        //////////////////////////ROUND ROBIN SCHEDULER//////////////////////////////
         //FCFS(ready_queue); //example of FCFS is shown here
-        //check if currently running process should be preemeted
-         if (running.state == RUNNING && !ready_queue.empty()){
-            //picks the first process at the back of the ready queue
-            EP_RR(ready_queue);
-            
-            if(ready_queue.back().priority < running.priority) {
-                states old_state = running.state;
-                running.state = READY;
-                ready_queue.push_back(running);
-                sync_queue(job_list, running);
-                execution_status += print_exec_status(current_time, running.PID, old_state, running.state);
-
-
-                //higher priority process takes CPU 
-                EP_RR(ready_queue);
-                run_process(running,job_list, ready_queue, current_time);
-                execution_status += print_exec_status(current_time, running.PID, READY, running.state);
-                quantum_counter = 0;
-            }
-        } 
-
-        // CPU idle case
+        //check if the CPU is in an idle state and that there are processes enqueued
         if (running.state == NOT_ASSIGNED && !ready_queue.empty()){
-            EP_RR(ready_queue);
+            //picks the first process at the back of the ready queue
             run_process(running, job_list, ready_queue, current_time);
-            execution_status += print_exec_status(current_time, running.PID, READY, running.state);
+            execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);
             quantum_counter = 0;
         }
 
@@ -164,12 +152,11 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
                 states old_state = running.state;
                 running.state = WAITING;
                 running.time_since_last_io = 0;
-                running.io_time_remaining = running.io_duration;
                 sync_queue(job_list, running);
                 execution_status += print_exec_status(current_time, running.PID, old_state, running.state);
                 wait_queue.push_back(running);
                 idle_CPU(running);
-            } 
+            }
 
             // QUATUM check 
             else if (quantum_counter >= QUANTUM){

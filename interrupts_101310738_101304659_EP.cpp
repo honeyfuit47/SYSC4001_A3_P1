@@ -6,13 +6,11 @@
  * @author Tomas Alvarez
  * @author Amnol Thakkar
  * @date Dec 1 2025
- * @brief updated wait queue manager and Round Robin scheduler
- * 
- * 
+ * @brief updated wait queue manager and External Priority scheduler
  * 
  */
 
-#include<interrupts_student1_student2.hpp>
+#include<interrupts_101310738_101304659.hpp>
 
 void FCFS(std::vector<PCB> &ready_queue) {
     std::sort( 
@@ -24,16 +22,14 @@ void FCFS(std::vector<PCB> &ready_queue) {
             );
 }
 
-void RR(std::vector<PCB> &ready_queue) {
-    std::sort( 
-                ready_queue.begin(),
-                ready_queue.end(),
-                []( const PCB &first, const PCB &second ){
-                    return (first.start_time > second.start_time); 
-                } 
+//sorts the ready queue based on priority 
+void EP(std::vector<PCB> &ready_queue) {
+    std::sort(ready_queue.begin(), ready_queue.end(),
+              [](const PCB &a, const PCB &b){
+                  return (a.PID > b.PID);
+                }
             );
 }
-
 
 std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std::vector<PCB> list_processes) {
 
@@ -49,8 +45,6 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
 
     //Initialize an empty running process
     idle_CPU(running);
-    const int QUANTUM = 100;
-    unsigned int quantum_counter = 0;
 
     std::string execution_status;
 
@@ -83,17 +77,15 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
 
         ///////////////////////MANAGE WAIT QUEUE/////////////////////////
         //This mainly involves keeping track of how long a process must remain in the ready queue
-
+        
         //go through all processes currently doing I/O
         
         for (auto iter = wait_queue.begin(); iter != wait_queue.end();){
             PCB &process = *iter;
-
             //decrementing the I/O if any remains
             if (process.io_time_remaining > 0){
                 process.io_time_remaining --;
             }
-
             //when I/O finishes, moce the associated process back into the READY QUEUE
             if (process.io_time_remaining == 0) {
                 states old_state = process.state;
@@ -102,8 +94,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
                 //reset the CPUburst I/O counter for the next I/O call and scyn with job_list
                 process.time_since_last_io = 0;
                 sync_queue(job_list, process);
-
-                //login the stae transitions
+                //loging the state
                 execution_status += print_exec_status(current_time, process.PID, old_state, process.state);
 
                 //push the process back into the ready queue
@@ -116,26 +107,21 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
             }
 
         }
-
-
         /////////////////////////////////////////////////////////////////
 
-        //////////////////////////ROUND ROBIN SCHEDULER//////////////////////////////
+        //////////////////////////SCHEDULER//////////////////////////////
         //FCFS(ready_queue); //example of FCFS is shown here
-        //check if the CPU is in an idle state and that there are processes enqueued
         if (running.state == NOT_ASSIGNED && !ready_queue.empty()){
             //picks the first process at the back of the ready queue
+            EP(ready_queue);
             run_process(running, job_list, ready_queue, current_time);
-            execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);
-            quantum_counter = 0;
+            execution_status += print_exec_status(current_time, running.PID, READY, running.state);
+
         }
-
-
         // executing 1ms of CPUburst when running
         if(running.state == RUNNING){
             running.remaining_time--;
             running.time_since_last_io++;
-            quantum_counter++;
             
             //if the Process is completed
             if(running.remaining_time == 0){
@@ -152,25 +138,15 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
                 states old_state = running.state;
                 running.state = WAITING;
                 running.time_since_last_io = 0;
+                running.io_time_remaining = running.io_duration;
                 sync_queue(job_list, running);
                 execution_status += print_exec_status(current_time, running.PID, old_state, running.state);
                 wait_queue.push_back(running);
-                idle_CPU(running);
-            }
-
-            // QUATUM check 
-            else if (quantum_counter >= QUANTUM){
-                states old_state = running.state;
-                running.state = READY;
-                sync_queue(job_list, running);
-                execution_status += print_exec_status(current_time,running.PID, old_state,running.state);
-                ready_queue.push_back(running);
                 idle_CPU(running);
             } 
         }
 
         current_time++;
-
         /////////////////////////////////////////////////////////////////
 
     }
