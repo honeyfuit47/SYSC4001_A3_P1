@@ -1,0 +1,40 @@
++------------------------------------------------+
+|Time of Transition |PID | Old State | New State |
++------------------------------------------------+
+|                 0 |  1 |       NEW |     READY |
+|                 0 |  1 |     READY |   RUNNING |
+|                 9 |  1 |   RUNNING |   WAITING |
+|                14 |  1 |   WAITING |     READY |
+|                14 |  1 |     READY |   RUNNING |
+|                23 |  1 |   RUNNING |   WAITING |
+|                28 |  1 |   WAITING |     READY |
+|                28 |  1 |     READY |   RUNNING |
+|                37 |  1 |   RUNNING |   WAITING |
+|                42 |  1 |   WAITING |     READY |
+|                42 |  1 |     READY |   RUNNING |
+|                51 |  1 |   RUNNING |   WAITING |
+|                56 |  1 |   WAITING |     READY |
+|                56 |  1 |     READY |   RUNNING |
+|                65 |  1 |   RUNNING |   WAITING |
+|                70 |  1 |   WAITING |     READY |
+|                70 |  1 |     READY |   RUNNING |
+|                79 |  1 |   RUNNING |   WAITING |
+|                84 |  1 |   WAITING |     READY |
+|                84 |  1 |     READY |   RUNNING |
+|                93 |  1 |   RUNNING |   WAITING |
+|                98 |  1 |   WAITING |     READY |
+|                98 |  1 |     READY |   RUNNING |
+|               107 |  1 |   RUNNING |   WAITING |
+|               112 |  1 |   WAITING |     READY |
+|               112 |  1 |     READY |   RUNNING |
+|               121 |  1 |   RUNNING |   WAITING |
+|               126 |  1 |   WAITING |     READY |
+|               126 |  1 |     READY |   RUNNING |
+|               135 |  1 |   RUNNING |TERMINATED |
++------------------------------------------------+
+
+Performance Metrics:
+Throughput: 0.01 processes/unit time
+Average Turnaround Time: 135.00
+Average Wait Time: 0.00
+Average Response Time: 0.00

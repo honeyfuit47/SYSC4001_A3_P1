@@ -1,0 +1,19 @@
++------------------------------------------------+
+|Time of Transition |PID | Old State | New State |
++------------------------------------------------+
+|                 0 |  1 |       NEW |     READY |
+|                 0 |  1 |     READY |   RUNNING |
+|                 5 |  2 |       NEW |     READY |
+|                10 |  3 |       NEW |     READY |
+|                29 |  1 |   RUNNING |TERMINATED |
+|                30 |  2 |     READY |   RUNNING |
+|                54 |  2 |   RUNNING |TERMINATED |
+|                55 |  3 |     READY |   RUNNING |
+|                69 |  3 |   RUNNING |TERMINATED |
++------------------------------------------------+
+
+Performance Metrics:
+Throughput: 0.04 processes/unit time
+Average Turnaround Time: 45.67
+Average Wait Time: 22.67
+Average Response Time: 23.33

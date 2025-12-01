@@ -1,0 +1,82 @@
++------------------------------------------------+
+|Time of Transition |PID | Old State | New State |
++------------------------------------------------+
+|                 0 |  1 |       NEW |     READY |
+|                 0 |  1 |     READY |   RUNNING |
+|                 5 |  2 |       NEW |     READY |
+|                 9 |  1 |   RUNNING |   WAITING |
+|                10 |  3 |       NEW |     READY |
+|                10 |  2 |     READY |   RUNNING |
+|                14 |  1 |   WAITING |     READY |
+|                15 |  4 |       NEW |     READY |
+|                89 |  2 |   RUNNING |TERMINATED |
+|                90 |  1 |     READY |   RUNNING |
+|                99 |  1 |   RUNNING |   WAITING |
+|               100 |  3 |     READY |   RUNNING |
+|               104 |  1 |   WAITING |     READY |
+|               104 |  3 |   RUNNING |   WAITING |
+|               105 |  1 |     READY |   RUNNING |
+|               109 |  3 |   WAITING |     READY |
+|               114 |  1 |   RUNNING |   WAITING |
+|               115 |  3 |     READY |   RUNNING |
+|               119 |  1 |   WAITING |     READY |
+|               119 |  3 |   RUNNING |   WAITING |
+|               120 |  1 |     READY |   RUNNING |
+|               124 |  3 |   WAITING |     READY |
+|               129 |  1 |   RUNNING |   WAITING |
+|               130 |  3 |     READY |   RUNNING |
+|               134 |  1 |   WAITING |     READY |
+|               134 |  3 |   RUNNING |   WAITING |
+|               135 |  1 |     READY |   RUNNING |
+|               139 |  3 |   WAITING |     READY |
+|               144 |  1 |   RUNNING |   WAITING |
+|               145 |  3 |     READY |   RUNNING |
+|               149 |  1 |   WAITING |     READY |
+|               149 |  3 |   RUNNING |   WAITING |
+|               150 |  1 |     READY |   RUNNING |
+|               154 |  3 |   WAITING |     READY |
+|               159 |  1 |   RUNNING |   WAITING |
+|               160 |  3 |     READY |   RUNNING |
+|               164 |  1 |   WAITING |     READY |
+|               164 |  3 |   RUNNING |   WAITING |
+|               165 |  1 |     READY |   RUNNING |
+|               169 |  3 |   WAITING |     READY |
+|               174 |  1 |   RUNNING |   WAITING |
+|               175 |  3 |     READY |   RUNNING |
+|               179 |  1 |   WAITING |     READY |
+|               179 |  3 |   RUNNING |   WAITING |
+|               180 |  1 |     READY |   RUNNING |
+|               184 |  3 |   WAITING |     READY |
+|               189 |  1 |   RUNNING |   WAITING |
+|               190 |  3 |     READY |   RUNNING |
+|               194 |  1 |   WAITING |     READY |
+|               194 |  3 |   RUNNING |   WAITING |
+|               195 |  1 |     READY |   RUNNING |
+|               199 |  3 |   WAITING |     READY |
+|               204 |  1 |   RUNNING |   WAITING |
+|               205 |  3 |     READY |   RUNNING |
+|               209 |  1 |   WAITING |     READY |
+|               209 |  3 |   RUNNING |   WAITING |
+|               210 |  1 |     READY |   RUNNING |
+|               214 |  3 |   WAITING |     READY |
+|               219 |  1 |   RUNNING |TERMINATED |
+|               220 |  3 |     READY |   RUNNING |
+|               224 |  3 |   RUNNING |   WAITING |
+|               225 |  4 |     READY |   RUNNING |
+|               229 |  3 |   WAITING |     READY |
+|               264 |  4 |   RUNNING |TERMINATED |
+|               265 |  3 |     READY |   RUNNING |
+|               269 |  3 |   RUNNING |   WAITING |
+|               274 |  3 |   WAITING |     READY |
+|               274 |  3 |     READY |   RUNNING |
+|               278 |  3 |   RUNNING |   WAITING |
+|               283 |  3 |   WAITING |     READY |
+|               283 |  3 |     READY |   RUNNING |
+|               287 |  3 |   RUNNING |TERMINATED |
++------------------------------------------------+
+
+Performance Metrics:
+Throughput: 0.01 processes/unit time
+Average Turnaround Time: 207.25
+Average Wait Time: 112.25
+Average Response Time: 76.25
