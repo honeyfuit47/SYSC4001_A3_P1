@@ -3,6 +3,10 @@
  * @author Sasisekhar Govind
  * @brief template main.cpp file for Assignment 3 Part 1 of SYSC4001
  * 
+ * @author Tomas Alvarez
+ * @author Amnol Thakkar
+ * @date Dec 1 2025
+ * @brief additional variables added to PCB for fucntional waiting manager and schedulers
  */
 
 #ifndef INTERRUPTS_HPP_
@@ -65,6 +69,12 @@ struct PCB{
     enum states     state;
     unsigned int    io_freq;
     unsigned int    io_duration;
+
+    // additional variables 
+    int priority;
+    unsigned int time_since_last_io;
+    unsigned int io_time_remaining;
+    unsigned int time_in_current_quantum;
 };
 
 //------------------------------------HELPER FUNCTIONS FOR THE SIMULATOR------------------------------
@@ -269,6 +279,8 @@ PCB add_process(std::vector<std::string> tokens) {
     process.start_time = -1;
     process.partition_number = -1;
     process.state = NOT_ASSIGNED;
+    process.time_since_last_io = 0;
+    process.io_time_remaining = 0;
 
     return process;
 }
